@@ -10,7 +10,7 @@ class Contact < ApplicationRecord
   # accepts_nested_attributes_for => aceita atributos dos phones (já que tem apenas model) 
   # allow_destroy: true => permite apagar phones através de contact
   accepts_nested_attributes_for :phones, allow_destroy: true
-  accepts_nested_attributes_for :address, allow_destroy: true
+  accepts_nested_attributes_for :address, update_only: true
 
   def as_json(options={})
     hash_options = super(options)
