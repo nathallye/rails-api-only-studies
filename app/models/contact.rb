@@ -12,11 +12,11 @@ class Contact < ApplicationRecord
   accepts_nested_attributes_for :phones, allow_destroy: true
   accepts_nested_attributes_for :address, update_only: true
 
-  def as_json(options={})
-    hash_options = super(options)
-    hash_options[:birthdate] = (I18n.l(self.birthdate) unless self.birthdate.blank?)
-    hash_options
-  end
+  # def as_json(options={})
+  #   hash_options = super(options)
+  #   hash_options[:birthdate] = (I18n.l(self.birthdate) unless self.birthdate.blank?)
+  #   hash_options
+  # end
   
   # def to_br
   #   {
