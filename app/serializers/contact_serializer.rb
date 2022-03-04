@@ -3,12 +3,17 @@ class ContactSerializer < ActiveModel::Serializer
 
   # pertence a
   belongs_to :kind do #, optional: true
-    link(:related) { kind_url(object.kind.id) }
+    # link(:self) { contact_kind_url(object.id) }
+    link(:related) { contact_kind_url(object.id) }
   end
   # tem varios 
-  has_many :phones # plural (pois é apenas vários)
+  has_many :phones do # plural (pois é apenas vários)
+    link(:related) { contact_phones_url(object.id) }
+  end 
   # tem um  
-  has_one :address # singular (pois é apenas um)
+  has_one :address do # singular (pois é apenas um)
+    link(:related) { contact_address_url(object.id) }
+  end
 
   # link(:self) { contact_url(object.id) } # object.id (apartir do objeto atual vamos pegar o id)
   # link(:kinds) { kind_url(object.kind.id) } # object.kind.id (apartir do objeto atual vamos pegar kind e seu  id)
