@@ -1,7 +1,8 @@
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   resources :kinds
-
+  resources :auths, only: [:create]
+  
   resources :contacts do
     resource :kind, only: [:show]
     resource :kind, only: [:show], path: 'relationships/kind'

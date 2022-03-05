@@ -1,4 +1,21 @@
 class KindsController < ApplicationController
+  # Para o usar a Auth HTTP Basic 
+  # include ActionController::HttpAuthentication::Basic::ControllerMethods
+  # http_basic_authenticate_with name: "nath", password: "secret"
+
+  # Para o usar a Auth HTTP Digest 
+  # include ActionController::HttpAuthentication::Digest::ControllerMethods
+  # REALM = "Application"
+  # USERS = {"nath" => OpenSSL::Digest::MD5.hexdigest(["nath", REALM, "secret"].join(":"))}  
+  # before_action :authenticate
+
+  # Para o usar o token authentication
+
+  # include ActionController::HttpAuthentication::Token::ControllerMethods
+  # TOKEN = "secret123" # O ideal é que esse token seja gerado em um model de login ou algon assim
+  include ActionController::HttpAuthentication::Token::ControllerMethods
+  before_action :authenticate
+
   before_action :set_kind, only: [:show, :update, :destroy]
 
   # GET /kinds
@@ -52,5 +69,28 @@ class KindsController < ApplicationController
   # Only allow a list of trusted parameters through.
   def kind_params
     params.require(:kind).permit(:description)
+  end
+
+  # Para o usar a Auth HTTP Digest 
+  # def authenticate
+  #   authenticate_or_request_with_http_digest(REALM) do |username|
+  #     USERS[username]
+  #   end
+  # end
+
+  # Para o usar o token authentication
+  # def authenticate
+  #   authenticate_or_request_with_http_token do |token, options|
+  #     ActiveSupport::SecurityUtils.secure_compare(token, TOKEN)
+  #   end
+  # end
+
+  # Para o usar o jwt
+  def authenticate
+    authenticate_or_request_with_http_token do |token, options|
+      hmac_secret = 'my$ecretK3y'
+
+      JWT.decode(token, hmac_secret, true, { :algorithm => 'HS256' })
+    end
   end
 end
