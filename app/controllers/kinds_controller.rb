@@ -10,11 +10,17 @@ class KindsController < ApplicationController
   # before_action :authenticate
 
   # Para o usar o token authentication
-
   # include ActionController::HttpAuthentication::Token::ControllerMethods
-  # TOKEN = "secret123" # O ideal é que esse token seja gerado em um model de login ou algon assim
-  include ActionController::HttpAuthentication::Token::ControllerMethods
-  before_action :authenticate
+  # TOKEN = "secret123" # O ideal é que esse token seja gerado em um model de login ou algon assiM
+  # before_action :authenticate
+
+  # Para usar o JWT
+  # include ActionController::HttpAuthentication::Token::ControllerMethods
+  # before_action :authenticate
+
+  
+  # Para usar o Devise Token Auth
+  before_action :authenticate_user! #método do Devise
 
   before_action :set_kind, only: [:show, :update, :destroy]
 
@@ -85,12 +91,12 @@ class KindsController < ApplicationController
   #   end
   # end
 
-  # Para o usar o jwt
-  def authenticate
-    authenticate_or_request_with_http_token do |token, options|
-      hmac_secret = 'my$ecretK3y'
+  # Para o usar o JWT
+  # def authenticate
+  #   authenticate_or_request_with_http_token do |token, options|
+  #     hmac_secret = 'my$ecretK3y'
 
-      JWT.decode(token, hmac_secret, true, { :algorithm => 'HS256' })
-    end
-  end
+  #     JWT.decode(token, hmac_secret, true, { :algorithm => 'HS256' })
+  #   end
+  # end
 end

@@ -40,7 +40,18 @@ gem 'active_model_serializers', '~> 0.10.2'
 # Manage Procfile-based applications
 gem 'foreman'
 
+# A ruby implementation of the RFC 7519 OAuth JSON Web Token (JWT) standard.
 gem 'jwt'
+
+gem 'devise'
+
+gem 'devise-i18n'
+
+# Simple, multi-client and secure token-based authentication for Rails JSON API.
+gem 'devise_token_auth'
+
+# A plugin for versioning Rails based RESTful APIs.
+gem 'versionist'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
