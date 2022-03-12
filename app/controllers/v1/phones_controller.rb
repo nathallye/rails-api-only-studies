@@ -12,7 +12,7 @@ module V1
       @contact.phones << Phone.new(phone_params)
 
       if @contact.save
-        render json: @contact.phones, status: :created, location: contact_phones_url(@contact) # o location vai exibir a url desse elemento no header que vai retornar
+        render json: @contact.phones, status: :created, location: v1_contact_phones_url(@contact) # o location vai exibir a url desse elemento no header que vai retornar
       else
         render json: @contact.errors, status: :unprocessable_entity
       end

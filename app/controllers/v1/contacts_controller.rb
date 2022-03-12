@@ -1,17 +1,27 @@
 module V1 
   class ContactsController < ApplicationController
+    include ErrorSerializer
+
     before_action :set_contact, only: [:show, :update, :destroy]
 
     # GET /contacts
     def index
-      @contacts = Contact.all
+      page_number = params[:page].try(:[], [:number]) # verifica se page tem number, se não tiver atribui 1, se tiver atribui ele
+      per_page = params[:page].try(:[], [:size]) # verifica se page tem size, se não tiver atribui 1, se tiver atribui ele
 
-      render json: @contacts #, methods: [:hello, :i18n]
+      @contacts = Contact.all.page(page_number).per(per_page) # paginação seguindo a especificação JSON:API via body
+      # @contacts = Contact.all.page(params[:page]) # page(params[:page]) => parte do kaminari  - paginação via Header
+
+      # expires_in 2.minutes, public: true # Cache-Control
+      if stale?(etag: @contacts) # se venceu a Etag, vai renderizar os contacts
+        render json: @contacts #, methods: [:hello, :i18n] 
+      end
+      # paginate json: @contacts # paginate =>  parte do api-paginate (substitui o render pelo paginate) - paginação via Header
     end
 
     # GET /contacts/1
     def show
-      render json: @contact, include: [:kind, :phones, :address] #, meta: { author: "Nathallye" }
+      render json: @contact #, include: [:kind, :phones, :address] #, meta: { author: "Nathallye" }
     end
 
     # POST /contacts
@@ -19,9 +29,9 @@ module V1
       @contact = Contact.new(contact_params)
 
       if @contact.save
-        render json: @contact, include: [:kind, :phones, :address], status: :created, location: @contact
+        render json: @contact, include: [:kind, :phones, :address], status: :created , location: v1_contact_url(@contact)
       else
-        render json: @contact.errors, status: :unprocessable_entity
+        render json: ErrorSerializer.serialize(@contact.errors), status: :unprocessable_entity #@contact.errors, status: :unprocessable_entity
       end
     end
 

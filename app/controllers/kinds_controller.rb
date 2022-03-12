@@ -20,7 +20,7 @@ class KindsController < ApplicationController
 
   
   # Para usar o Devise Token Auth
-  before_action :authenticate_user! #método do Devise
+  # before_action :authenticate_user! #método do Devise
 
   before_action :set_kind, only: [:show, :update, :destroy]
 

@@ -12,7 +12,7 @@ module V2
       @contact.address = Address.new(address_params)
 
       if @contact.address.save
-        render json: @contact.address, status: :created, location: contact_address_url(@contact) # o location vai exibir a url desse elemento no header que vai retornar
+        render json: @contact.address, status: :created, location: v2_contact_address_url(@contact) # o location vai exibir a url desse elemento no header que vai retornar
       else
         render json: @contact.errors, status: :unprocessable_entity
       end

@@ -4,7 +4,7 @@ module V2
 
     # GET /contacts
     def index
-      @contacts = Contact.last(5)
+      @contacts = Contact.last(5) #lista apenas os 5 primeiros registros
 
       render json: @contacts #, methods: [:hello, :i18n]
     end

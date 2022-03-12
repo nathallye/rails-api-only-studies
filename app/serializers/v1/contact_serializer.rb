@@ -1,6 +1,7 @@
 module V1  
   class ContactSerializer < ActiveModel::Serializer
     attributes :id, :name, :email, :birthdate, :kind_id #, :author
+    
 
     # pertence a
     belongs_to :kind do #, optional: true
